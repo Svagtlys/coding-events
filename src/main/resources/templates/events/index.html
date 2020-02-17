@@ -20,6 +20,24 @@
                 Description
             </th>
             <th>
+                Contact Email
+            </th>
+            <th>
+               Location
+            </th>
+            <th>
+                Must Register?
+            </th>
+            <th>
+                Number of Attendees
+            </th>
+            <th>
+                Entry Fee
+            </th>
+            <th>
+                Event Type
+            </th>
+            <th>
 
             </th>
         </tr>
@@ -29,6 +47,12 @@
         <td th:text="${event.id}"></td>
         <td th:text="${event.name}"></td>
         <td th:text="${event.description}"></td>
+        <td th:text="${event.contactEmail}"></td>
+        <td th:text="${event.location}"></td>
+        <td th:text="${event.attendeeMustRegister}"></td>
+        <td th:text="${event.numberOfAttendees}"></td>
+        <td th:text="${'$' + event.entryFee}"></td>
+        <td th:text="${event.type.displayName}"></td>
         <td>
             <a th:href="@{/events/edit/{id}(id=${event.id})}">Edit Event</a>
         </td>

@@ -2,10 +2,13 @@ package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventData;
 import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.EventType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +31,17 @@ public class EventController {
     @GetMapping("create")
     public String renderCreateEventForm(Model model){
         model.addAttribute("title", "Create Event");
+        model.addAttribute("event", new Event());
+        model.addAttribute("eventTypeValues", EventType.values());
         return "events/create";
     }
 
     @PostMapping("create")
-    public String processCreateEvent(@ModelAttribute Event createdEvent){
+    public String processCreateEvent(@ModelAttribute @Valid Event createdEvent, Errors errors, Model model){
+        if(errors.hasErrors()){
+            model.addAttribute("title", "Create Event");
+            return "events/create";
+        }
         EventData.add(createdEvent);
 
         return "redirect:";
@@ -61,14 +70,25 @@ public class EventController {
         Event selectedEvent = EventData.getById(eventId);
         model.addAttribute("event", selectedEvent);
         model.addAttribute("title", "Edit Event " + selectedEvent.getName() + " (id=" + selectedEvent.getId() + ")");
+        model.addAttribute("eventTypeValues", EventType.values());
         return "events/edit";
     }
 
     @PostMapping("edit")
-    public String processEditEvent(int eventId, String name, String description){
+    public String processEditEvent(@ModelAttribute @Valid Event editedEvent, int eventId, Errors errors, Model model){
+        if(errors.hasErrors()) {
+            model.addAttribute("title", "Edit Event " + editedEvent.getName() + " (id=" + editedEvent.getId() + ")");
+            return "events/edit";
+        }
+
         Event selectedEvent = EventData.getById(eventId);
-        selectedEvent.setName(name);
-        selectedEvent.setDescription(description);
+        selectedEvent.setName(editedEvent.getName());
+        selectedEvent.setDescription(editedEvent.getDescription());
+        selectedEvent.setContactEmail(editedEvent.getContactEmail());
+        selectedEvent.setLocation(editedEvent.getLocation());
+        selectedEvent.setAttendeeMustRegister(editedEvent.isAttendeeMustRegister());
+        selectedEvent.setNumberOfAttendees(editedEvent.getNumberOfAttendees());
+        selectedEvent.setEntryFee(editedEvent.getEntryFee());
 
         return "redirect:/events";
     }

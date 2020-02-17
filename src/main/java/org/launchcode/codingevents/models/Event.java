@@ -1,19 +1,57 @@
 package org.launchcode.codingevents.models;
 
+import org.thymeleaf.standard.expression.SelectionVariableExpression;
+
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 public class Event {
 
-    private String name, description;
     private int id;
     private static int nextId = 0;
 
+    @NotBlank(message = "Name must not be empty.")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters.")
+    private String name;
 
-    public Event(String name, String description) {
-        this.name = name;
-        this.description = description;
+    @Size(max = 500, message = "Description too long.")
+    private String description;
+
+    @NotBlank(message = "Email must not be empty.")
+    @Email(message = "Invalid email address.")
+    private String contactEmail;
+
+    @NotBlank(message = "Location must not be blank.")
+    @NotNull(message = "Location must not be null.")
+    private String location;
+
+    @AssertTrue(message = "Attendees must be required to register.")
+    private boolean attendeeMustRegister;
+
+    @Min(value = 1, message = "Number of attendees must be at least 1.")
+    private int numberOfAttendees;
+
+    @NotNull(message = "Entry fee must not be null.")
+    @Min(value = 0, message = "Entry fee must be at least 0.")
+    private double entryFee;
+
+    private EventType type;
+
+    public Event() {
         this.id = nextId;
         nextId++;
+    }
+
+    public Event(String name, String description, String contactEmail, String location, boolean attendeeMustRegister, int numberOfAttendees, double entryFee, EventType type) {
+        this();
+        this.name = name;
+        this.description = description;
+        this.contactEmail = contactEmail;
+        this.location = location;
+        this.attendeeMustRegister = attendeeMustRegister;
+        this.numberOfAttendees = numberOfAttendees;
+        this.entryFee = entryFee;
+        this.type = type;
     }
 
     public String getName() {
@@ -30,6 +68,54 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isAttendeeMustRegister() {
+        return attendeeMustRegister;
+    }
+
+    public void setAttendeeMustRegister(boolean attendeeMustRegister) {
+        this.attendeeMustRegister = attendeeMustRegister;
+    }
+
+    public int getNumberOfAttendees() {
+        return numberOfAttendees;
+    }
+
+    public void setNumberOfAttendees(int numberOfAttendees) {
+        this.numberOfAttendees = numberOfAttendees;
+    }
+
+    public double getEntryFee() {
+        return entryFee;
+    }
+
+    public void setEntryFee(double entryFee) {
+        this.entryFee = entryFee;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
     }
 
     public int getId() {

@@ -8,13 +8,58 @@
 <form method="post" th:action="@{/events/edit}">
     <div class="form-group">
         <label>Name of Event
+            <p class="alert alert-warning" th:errors="${event.name}"></p>
             <input type="text" name="name" class="form-control" th:value="${event.name}" />
         </label>
+    </div>
+    <div class="form-group">
         <label>Description
+            <p class="alert alert-warning" th:errors="${event.description}"></p>
             <input type="text" name="description" class="form-control" th:value="${event.description}"/>
         </label>
-        <input type="hidden" th:value="${event.id}" name="eventId" />
     </div>
+    <div class="form-group">
+        <label>Contact Email
+            <p class="alert alert-warning" th:errors="${event.contactEmail}"></p>
+            <input type="text" name="contactEmail" class="form-control" th:value="${event.contactEmail}"/>
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Location
+            <p class="alert alert-warning" th:errors="${event.location}"></p>
+            <input type="text" name="location" class="form-control" th:value="${event.location}" />
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Is registration required?
+            <p class="alert alert-warning" th:errors="${event.attendeeMustRegister}"></p>
+            <input type="checkbox" name="attendeeMustRegister" th:checked="${event.attendeeMustRegister}" class="form-control" />
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Number of Attendees
+            <p class="alert alert-warning" th:errors="${event.numberOfAttendees}"></p>
+            <input type="text" name="numberOfAttendees" class="form-control" th:value="${event.numberOfAttendees}" />
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Entry Fee
+            <p class="alert alert-warning" th:errors="${event.entryFee}"></p>
+            <input type="text" name="entryFee" class="form-control" th:value="${event.entryFee}" />
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Event Type
+            <select name="type">
+                <option th:each="eventType : ${eventTypeValues}"
+                        th:value="${eventType}"
+                        th:text="${eventType.displayName}"
+                        th:selected="${eventType == event.type}">
+                </option>
+            </select>
+        </label>
+    </div>
+    <input type="hidden" th:value="${event.id}" name="eventId" />
     <div class="form-group">
         <input type="submit" value="Edit Event" class="btn btn-success" />
     </div>
