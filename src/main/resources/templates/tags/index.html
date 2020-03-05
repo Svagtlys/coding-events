@@ -8,11 +8,11 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Tag Name</th>
         </tr>
     </thead>
-    <tr th:each="event : ${events}">
-        <td><a th:text="${event.name}" th:href="'/events/details?eventId=' + ${event.id}"></a></td>
+    <tr th:each="tag : ${tags}">
+        <td th:text="${tag.displayName}"></td>
     </tr>
 </table>
 
